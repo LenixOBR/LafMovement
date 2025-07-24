@@ -20,7 +20,6 @@
 */
 
 #include "Arduino.h"
-#include "AFMotor.h"
 
 /*L=Left, R=Right*/
 
