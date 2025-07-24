@@ -1,7 +1,7 @@
 #include "lafvin.h"
 #include <stdlib.h> // Necessary for abs() function
 
-Lafvin::Lafvin(int speed) {
+LafvinRobot::LafvinRobot(int speed) {
     _speed = speed;
     pinMode(2, OUTPUT);
     pinMode(4, OUTPUT);
@@ -10,11 +10,11 @@ Lafvin::Lafvin(int speed) {
     Serial.begin(9600);
 }
 
-void Lafvin::setSpeed(int speed) {
+void LafvinRobot::setSpeed(int speed) {
     _speed = speed;
 }
 
-void Lafvin::forward() {
+void LafvinRobot::forward() {
     // Move forward: both motors set to forward direction
     digitalWrite(2, HIGH);
     digitalWrite(4, HIGH);
@@ -22,13 +22,13 @@ void Lafvin::forward() {
     analogWrite(6, _speed);
 }
 
-void Lafvin::forwardFor(unsigned long ms) {
+void LafvinRobot::forwardFor(unsigned long ms) {
     forward();
     delay(ms);
     stop();
 }
 
-void Lafvin::backward() {
+void LafvinRobot::backward() {
     // Move backward: both motors set to backward direction
     digitalWrite(2, LOW);
     digitalWrite(4, LOW);
@@ -36,13 +36,13 @@ void Lafvin::backward() {
     analogWrite(6, _speed);
 }
 
-void Lafvin::backwardFor(unsigned long ms) {
+void LafvinRobot::backwardFor(unsigned long ms) {
     backward();
     delay(ms);
     stop();
 }
 
-void Lafvin::spinLeft() {
+void LafvinRobot::spinLeft() {
     // Left motor forward and right motor backward
     digitalWrite(2, HIGH);
     digitalWrite(4, LOW);
@@ -50,13 +50,13 @@ void Lafvin::spinLeft() {
     analogWrite(6, _speed);
 }
 
-void Lafvin::spinLeftFor(unsigned long ms) {
+void LafvinRobot::spinLeftFor(unsigned long ms) {
     spinLeft();
     delay(ms);
     stop();
 }
 
-void Lafvin::spinRight() {
+void LafvinRobot::spinRight() {
     // Spin right: left motor backward and right motor forward
     digitalWrite(2, LOW);
     digitalWrite(4, HIGH);
@@ -64,13 +64,13 @@ void Lafvin::spinRight() {
     analogWrite(6, _speed);
 }
 
-void Lafvin::spinRightFor(unsigned long ms) {
+void LafvinRobot::spinRightFor(unsigned long ms) {
     spinRight();
     delay(ms);
     stop();
 }
 
-void Lafvin::moveLeft() {
+void LafvinRobot::moveLeft() {
     // Turn left: reduce speed of the left motor
     digitalWrite(2, HIGH);
     digitalWrite(4, HIGH);
@@ -78,13 +78,13 @@ void Lafvin::moveLeft() {
     analogWrite(6, _speed);
 }
 
-void Lafvin::moveLeftFor(unsigned long ms) {
+void LafvinRobot::moveLeftFor(unsigned long ms) {
     moveLeft();
     delay(ms);
     stop();
 }
 
-void Lafvin::moveRight() {
+void LafvinRobot::moveRight() {
     // Turn right: reduce speed of the right motor
     digitalWrite(2, HIGH);
     digitalWrite(4, HIGH);
@@ -92,19 +92,19 @@ void Lafvin::moveRight() {
     analogWrite(6, 0);  // Right motor with zero speed
 }
 
-void Lafvin::moveRightFor(unsigned long ms) {
+void LafvinRobot::moveRightFor(unsigned long ms) {
     moveRight();
     delay(ms);
     stop();
 }
 
-void Lafvin::stop() {
+void LafvinRobot::stop() {
     // Stop both motors
     analogWrite(5, 0);
     analogWrite(6, 0);
 }
 
-void Lafvin::preciseMove(int L, int R) {
+void LafvinRobot::preciseMove(int L, int R) {
     // Precise control: set direction based on sign and speed based on absolute value
     digitalWrite(2, (L >= 0) ? HIGH : LOW);
     digitalWrite(4, (R >= 0) ? HIGH : LOW);
@@ -112,9 +112,37 @@ void Lafvin::preciseMove(int L, int R) {
     analogWrite(6, abs(R));
 }
 
-void Lafvin::preciseMoveFor(int L, int R, unsigned long ms) {
+void LafvinRobot::preciseMoveFor(int L, int R, unsigned long ms) {
     preciseMove(L, R);
     delay(ms);
     stop();
 }
 
+void LafvinMotor::LafvinMotor(int motorNum) {
+    // Initialize motor pins based on motor number
+    if (motorNum == 1) {
+        _motorDirPin = 2; // Example pin for direction
+        _motorPWMPin = 5; // Example pin for PWM
+    } else if (motorNum == 2) {
+        _motorDirPin = 4; // Example pin for direction
+        _motorPWMPin = 6; // Example pin for PWM
+    }
+    pinMode(_motorDirPin, OUTPUT);
+    pinMode(_motorPWMPin, OUTPUT);
+}
+
+void LafvinMotor::setSpeed(int speed) {
+    // Set the speed of the motor
+    analogWrite(_motorPWMPin, speed);
+}
+
+void LafvinMotor::run(int direction) {
+    // Set the motor direction
+    if (direction == FORWARD) {
+        digitalWrite(_motorDirPin, HIGH);
+    } else if (direction == BACKWARD) {
+        digitalWrite(_motorDirPin, LOW);
+    } else if (direction == RELEASE) {
+        analogWrite(_motorPWMPin, 0); // Stop the motor
+    }
+}
