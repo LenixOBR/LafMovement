@@ -24,6 +24,17 @@
 
 /*L=Left, R=Right*/
 
+class LafvinMotor
+{
+  public: 
+    LafvinMotor(int motorNum);
+    void setSpeed(int speed);
+    void run(int direction);
+  private:
+    int _motorDirPin;
+    int _motorPWMPin;
+};
+
 class LafvinRobot
 {
   public:
@@ -51,16 +62,6 @@ class LafvinRobot
     LafvinMotor _rightMotor;
 };
 
-class LafvinMotor
-{
-  public: 
-    LafvinMotor(int motorNum);
-    void setSpeed(int speed);
-    void run(int direction);
-  private:
-    int _motorDirPin;
-    int _motorPWMPin;
-}
 
 #endif
 
