@@ -1,7 +1,7 @@
 /*
   lafvin.h - Library for moving lafvin robots.
   Created by Lenix Team, March 13, 2025
-  Released into the public domain.
+  Released with an LGPL License.
 */
 
 #ifndef lafvin_h
