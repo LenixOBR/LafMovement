@@ -7,6 +7,11 @@
 #ifndef lafvin_h
 #define lafvin_h
 
+#define FORWARD 1
+#define BACKWARD 0
+#define RELEASE 2
+
+
 /*
     VS Code is complaining about arduino.h, let's hope it's nothing.
     https://docs.arduino.cc/learn/contributions/arduino-creating-library-guide/ <- guide being used
@@ -17,11 +22,11 @@
 
 /*L=Left, R=Right*/
 
-class Lafvin
+class LafvinRobot
 {
   public:
-    Lafvin(int speed);
-    void setSpeed(int speed);
+    LafvinRobot(int speedL, int speedR);
+    void setSpeed(int speedL, int SpeedR);
     void forward();
     void forwardFor(unsigned long ms);
     void backward();
@@ -38,9 +43,20 @@ class Lafvin
     void preciseMove(int L, int R);
     void preciseMoveFor(int L, int R, unsigned long ms);
   private:
-    int _speed;
-
+    int _speedL;
+    int _speedR;
 };
+
+class LafvinMotor
+{
+  public: 
+    LafvinMotor(int motorNum);
+    void setSpeed(int speed);
+    void run(int direction);
+  private:
+    int _motorDirPin;
+    int _motorPWMPin;
+}
 
 #endif
 
