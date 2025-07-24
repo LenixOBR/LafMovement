@@ -118,7 +118,7 @@ void LafvinRobot::preciseMoveFor(int L, int R, unsigned long ms) {
     stop();
 }
 
-void LafvinMotor::LafvinMotor(int motorNum) {
+LafvinMotor::LafvinMotor(int motorNum) {
     // Initialize motor pins based on motor number
     if (motorNum == 1) {
         _motorDirPin = 2; // Example pin for direction
