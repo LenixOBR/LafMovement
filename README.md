@@ -102,4 +102,3 @@ LenixOBR
 ## 📝 License
 
 This library is released under the [LGPL License](https://www.gnu.org/licenses/lgpl-3.0.html).
-```
