@@ -39,7 +39,7 @@ class LafvinRobot
 {
   public:
     LafvinRobot(int motorLeft, int motorRight, int speedL, int speedR);
-    void setSpeed(int speedL, int SpeedR);
+    void setSpeed(int speedL, int speedR);
     void forward();
     void forwardFor(unsigned long ms);
     void backward();
