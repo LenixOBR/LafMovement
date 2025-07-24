@@ -15,8 +15,8 @@ void LafvinRobot::setSpeed(int speedL, int speedR) {
 }
 
 void LafvinRobot::forward() {
-    _leftMotor.move(FORWARD, _speedL);
-    _rightMotor.move(FORWARD, _speedR);
+    _leftMotor.run(FORWARD);
+    _rightMotor.run(FORWARD);
 }
 
 void LafvinRobot::forwardFor(unsigned long ms) {
@@ -26,8 +26,8 @@ void LafvinRobot::forwardFor(unsigned long ms) {
 }
 
 void LafvinRobot::backward() {
-    _leftMotor.move(BACKWARD, _speedL);
-    _rightMotor.move(BACKWARD, _speedR);
+    _leftMotor.run(BACKWARD);
+    _rightMotor.run(BACKWARD);
 }
 
 void LafvinRobot::backwardFor(unsigned long ms) {
@@ -37,8 +37,8 @@ void LafvinRobot::backwardFor(unsigned long ms) {
 }
 
 void LafvinRobot::spinLeft() {
-    _leftMotor.move(FORWARD, _speedL);
-    _rightMotor.move(BACKWARD, _speedR);
+    _leftMotor.run(FORWARD);
+    _rightMotor.run(BACKWARD);
 }
 
 void LafvinRobot::spinLeftFor(unsigned long ms) {
@@ -48,8 +48,8 @@ void LafvinRobot::spinLeftFor(unsigned long ms) {
 }
 
 void LafvinRobot::spinRight() {
-    _leftMotor.move(BACKWARD, _speedL);
-    _rightMotor.move(FORWARD, _speedR);
+    _leftMotor.run(BACKWARD);
+    _rightMotor.run(FORWARD);
 }
 
 void LafvinRobot::spinRightFor(unsigned long ms) {
@@ -60,8 +60,8 @@ void LafvinRobot::spinRightFor(unsigned long ms) {
 
 void LafvinRobot::moveLeft() {
     // Turn left: left motor parado, right motor em velocidade normal
-    _leftMotor.move(FORWARD, 0);
-    _rightMotor.move(FORWARD, _speedR);
+    _leftMotor.run(RELEASE);
+    _rightMotor.run(FORWARD);
 }
 
 void LafvinRobot::moveLeftFor(unsigned long ms) {
@@ -72,8 +72,8 @@ void LafvinRobot::moveLeftFor(unsigned long ms) {
 
 void LafvinRobot::moveRight() {
     // Turn right: right motor parado, left motor em velocidade normal
-    _leftMotor.move(FORWARD, _speedL);
-    _rightMotor.move(FORWARD, 0);
+    _leftMotor.run(FORWARD);
+    _rightMotor.run(RELEASE);
 }
 
 void LafvinRobot::moveRightFor(unsigned long ms) {
@@ -88,8 +88,10 @@ void LafvinRobot::stop() {
 }
 
 void LafvinRobot::preciseMove(int L, int R) {
-    _leftMotor.move((L >= 0) ? FORWARD : BACKWARD, abs(L));
-    _rightMotor.move((R >= 0) ? FORWARD : BACKWARD, abs(R));
+    _leftMotor.setSpeed(abs(L));
+    _rightMotor.setSpeed(abs(R));
+    _leftMotor.run((L >= 0) ? FORWARD : BACKWARD);
+    _rightMotor.run((R >= 0) ? FORWARD : BACKWARD);
 }
 
 void LafvinRobot::preciseMoveFor(int L, int R, unsigned long ms) {
