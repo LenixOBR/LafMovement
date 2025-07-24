@@ -4,8 +4,8 @@
   Released with an LGPL License.
 */
 
-#ifndef lafvin_h
-#define lafvin_h
+#ifndef LAFVIN_H
+#define LAFVIN_H
 
 #define FORWARD 1
 #define BACKWARD 0
