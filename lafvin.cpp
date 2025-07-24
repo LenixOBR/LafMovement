@@ -1,25 +1,22 @@
 #include "lafvin.h"
-#include <stdlib.h> // Necessary for abs() function
+#include <stdlib.h> // abs()
 
 LafvinRobot::LafvinRobot(int motorNumLeft, int motorNumRight, int speedL, int speedR)
-  : _leftMotor(motorNumLeft), _rightMotor(motorNumRight)
+    : _leftMotor(motorNumLeft), _rightMotor(motorNumRight), _speedL(speedL), _speedR(speedR)
 {
-  _speedL = speedL;
-  _speedR = speedR;
-  _leftMotor.setSpeed(_speedL);
-  _rightMotor.setSpeed(_speedR);
+    // Inicializa motores com velocidades padrão
+    _leftMotor.setSpeed(_speedL);
+    _rightMotor.setSpeed(_speedR);
 }
 
-void LafvinRobot::setSpeed(int speed) {
-    _speed = speed;
+void LafvinRobot::setSpeed(int speedL, int speedR) {
+    _speedL = speedL;
+    _speedR = speedR;
 }
 
 void LafvinRobot::forward() {
-    // Move forward: both motors set to forward direction
-    digitalWrite(2, HIGH);
-    digitalWrite(4, HIGH);
-    analogWrite(5, _speed);
-    analogWrite(6, _speed);
+    _leftMotor.move(FORWARD, _speedL);
+    _rightMotor.move(FORWARD, _speedR);
 }
 
 void LafvinRobot::forwardFor(unsigned long ms) {
@@ -29,11 +26,8 @@ void LafvinRobot::forwardFor(unsigned long ms) {
 }
 
 void LafvinRobot::backward() {
-    // Move backward: both motors set to backward direction
-    digitalWrite(2, LOW);
-    digitalWrite(4, LOW);
-    analogWrite(5, _speed);
-    analogWrite(6, _speed);
+    _leftMotor.move(BACKWARD, _speedL);
+    _rightMotor.move(BACKWARD, _speedR);
 }
 
 void LafvinRobot::backwardFor(unsigned long ms) {
@@ -43,11 +37,8 @@ void LafvinRobot::backwardFor(unsigned long ms) {
 }
 
 void LafvinRobot::spinLeft() {
-    // Left motor forward and right motor backward
-    digitalWrite(2, HIGH);
-    digitalWrite(4, LOW);
-    analogWrite(5, _speed);
-    analogWrite(6, _speed);
+    _leftMotor.move(FORWARD, _speedL);
+    _rightMotor.move(BACKWARD, _speedR);
 }
 
 void LafvinRobot::spinLeftFor(unsigned long ms) {
@@ -57,11 +48,8 @@ void LafvinRobot::spinLeftFor(unsigned long ms) {
 }
 
 void LafvinRobot::spinRight() {
-    // Spin right: left motor backward and right motor forward
-    digitalWrite(2, LOW);
-    digitalWrite(4, HIGH);
-    analogWrite(5, _speed);
-    analogWrite(6, _speed);
+    _leftMotor.move(BACKWARD, _speedL);
+    _rightMotor.move(FORWARD, _speedR);
 }
 
 void LafvinRobot::spinRightFor(unsigned long ms) {
@@ -71,11 +59,9 @@ void LafvinRobot::spinRightFor(unsigned long ms) {
 }
 
 void LafvinRobot::moveLeft() {
-    // Turn left: reduce speed of the left motor
-    digitalWrite(2, HIGH);
-    digitalWrite(4, HIGH);
-    analogWrite(5, 0);  // Left motor with zero speed
-    analogWrite(6, _speed);
+    // Turn left: left motor parado, right motor em velocidade normal
+    _leftMotor.move(FORWARD, 0);
+    _rightMotor.move(FORWARD, _speedR);
 }
 
 void LafvinRobot::moveLeftFor(unsigned long ms) {
@@ -85,11 +71,9 @@ void LafvinRobot::moveLeftFor(unsigned long ms) {
 }
 
 void LafvinRobot::moveRight() {
-    // Turn right: reduce speed of the right motor
-    digitalWrite(2, HIGH);
-    digitalWrite(4, HIGH);
-    analogWrite(5, _speed);
-    analogWrite(6, 0);  // Right motor with zero speed
+    // Turn right: right motor parado, left motor em velocidade normal
+    _leftMotor.move(FORWARD, _speedL);
+    _rightMotor.move(FORWARD, 0);
 }
 
 void LafvinRobot::moveRightFor(unsigned long ms) {
@@ -99,17 +83,13 @@ void LafvinRobot::moveRightFor(unsigned long ms) {
 }
 
 void LafvinRobot::stop() {
-    // Stop both motors
-    analogWrite(5, 0);
-    analogWrite(6, 0);
+    _leftMotor.run(RELEASE);
+    _rightMotor.run(RELEASE);
 }
 
 void LafvinRobot::preciseMove(int L, int R) {
-    // Precise control: set direction based on sign and speed based on absolute value
-    digitalWrite(2, (L >= 0) ? HIGH : LOW);
-    digitalWrite(4, (R >= 0) ? HIGH : LOW);
-    analogWrite(5, abs(L));
-    analogWrite(6, abs(R));
+    _leftMotor.move((L >= 0) ? FORWARD : BACKWARD, abs(L));
+    _rightMotor.move((R >= 0) ? FORWARD : BACKWARD, abs(R));
 }
 
 void LafvinRobot::preciseMoveFor(int L, int R, unsigned long ms) {
