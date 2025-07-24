@@ -8,4 +8,5 @@ void setup() {
   robot.stop();
 }
 
-void loop() {}
+void loop() {
+}
