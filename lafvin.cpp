@@ -1,13 +1,13 @@
 #include "lafvin.h"
 #include <stdlib.h> // Necessary for abs() function
 
-LafvinRobot::LafvinRobot(int speed) {
-    _speed = speed;
-    pinMode(2, OUTPUT);
-    pinMode(4, OUTPUT);
-    pinMode(5, OUTPUT);
-    pinMode(6, OUTPUT);
-    Serial.begin(9600);
+LafvinRobot::LafvinRobot(int motorNumLeft, int motorNumRight, int speedL, int speedR)
+  : _leftMotor(motorNumLeft), _rightMotor(motorNumRight)
+{
+  _speedL = speedL;
+  _speedR = speedR;
+  _leftMotor.setSpeed(_speedL);
+  _rightMotor.setSpeed(_speedR);
 }
 
 void LafvinRobot::setSpeed(int speed) {

@@ -11,6 +11,8 @@
 #define BACKWARD 0
 #define RELEASE 2
 
+#define A 1
+#define B 2
 
 /*
     VS Code is complaining about arduino.h, let's hope it's nothing.
@@ -25,7 +27,7 @@
 class LafvinRobot
 {
   public:
-    LafvinRobot(int speedL, int speedR);
+    LafvinRobot(int motorLeft, int motorRight, int speedL, int speedR);
     void setSpeed(int speedL, int SpeedR);
     void forward();
     void forwardFor(unsigned long ms);
@@ -45,6 +47,8 @@ class LafvinRobot
   private:
     int _speedL;
     int _speedR;
+    LafvinMotor _leftMotor;
+    LafvinMotor _rightMotor;
 };
 
 class LafvinMotor
